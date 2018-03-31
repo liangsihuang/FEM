@@ -8,7 +8,7 @@ function z=Triangle2D3Node_Assembly(KK,k,i,j,m)
 DOF(1)=2*i-1;
 DOF(2)=2*i;
 DOF(3)=2*j-1;
-DOF(4)=2*j-1;
+DOF(4)=2*j;
 DOF(5)=2*m-1;
 DOF(6)=2*m;
 % 送入整体刚度矩阵
