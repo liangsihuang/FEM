@@ -1,6 +1,6 @@
-% 先集中荷载测试，后进行分布荷载测试
+
 clear;clc;
 Triangle2D3Node_Model2;
 Triangle2D3Node_SolveModel;
 Triangle2D3Node_Record;
-Triangle2D3Node_Display;
+% Triangle2D3Node_Display;

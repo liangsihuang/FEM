@@ -1,5 +1,5 @@
 function Triangle2D3Node_SolveModel
-global gNode gElement gMaterial gBC1 gNF gDF gK gDelta ID gVonMises
+global gNode gElement gMaterial gBC1 gNF gDF gK gDelta ID gStress
 % step1. 定义整体刚度矩阵和节点力向量
 [node_number,dummy] = size( gNode ) ;
 gK=zeros(node_number*2,node_number*2);
@@ -28,11 +28,11 @@ for ibc=1:1:bc_number
 end
 % step 6. 求解方程组，得到节点位移向量
 gDelta = gK \ P ;
-% step 7. von-Mises应力向量
+% step 7. 求应力，每一行为一个单元：x正应力,y正应力，剪应力
 [element_number,dummy] = size( gElement ) ;
-gVonMises=zeros(element_number,1);
+gStress=zeros(element_number,3);
 for ie=1:1:element_number
     stress=Triangle2D3Node_Stress(ie,ID);
-    gVonMises(ie,1)=Triangle2D3Node_vonMises(stress);
+    gStress(ie,:)=stress';
 end
 end

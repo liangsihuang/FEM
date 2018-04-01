@@ -47,3 +47,9 @@ gVonMises=[
     0.9102
     0.6279
     1.3706];
+% TR=triangulation(gElement(:,1:3),gNode);
+% trisurf(TR);
+% triplot(TR);
+patch('Faces',gElement(:,1:3),'Vertices',gNode,'FaceColor',gVonMises) 
+axis square
+colorbar

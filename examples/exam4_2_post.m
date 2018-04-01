@@ -7,7 +7,7 @@ function exam4_2_post( file_in )
     global gNode gElement gMaterial gBC1 gDelta gNodeStress gElementStress
     
     if nargin < 1 
-        file_in = 'exam4_2.mat' ;
+        file_in = 'exam4_2.m' ;
     end
     
     load( file_in ) ;

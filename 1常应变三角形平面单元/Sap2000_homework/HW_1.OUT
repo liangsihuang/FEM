@@ -1,0 +1,20 @@
+ SAP2000 v15.1.0 Ultimate (Analysis Build 9024/32)                              
+ File: C:\Users\lyoshi\Documen...1常应变三角形平面单元\Sap2000_homework\HW_1.OUT
+                                                                     
+                                                                       
+
+ D I S P L A C E M E N T   D E G R E E S   O F   F R E E D O M
+
+         (A) = Active DOF, equilibrium equation
+         (-) = Restrained DOF, reaction computed
+         (+) = Constrained DOF
+         (>) = External substructure DOF
+         ( ) = Null DOF
+
+  JOINTS              UX  UY  UZ  RX  RY  RZ
+      54               -   -   -            
+      55 TO      56    A       A            
+      57               -   -   -            
+      58               A       A            
+      59               -   -   -            
+      60 TO      68    A       A            

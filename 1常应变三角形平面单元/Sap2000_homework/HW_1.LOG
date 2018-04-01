@@ -1,0 +1,49 @@
+
+
+ SAP2000 v15.1.0 Ultimate (Analysis Build 9024/32)
+ File: C:\Users\lyoshi\Documen...1常应变三角形平面单元\Sap2000_homework\HW_1.LOG
+
+
+
+
+ B E G I N   A N A L Y S I S                                2018/04/01  14:47:29
+
+
+ RUNNING ANALYSIS WITHIN THE GUI PROCESS
+ USING THE ADVANCED SOLVER (PROVIDES LIMITED INSTABILITY INFORMATION)
+
+ NUMBER OF JOINTS                          =          15
+    WITH RESTRAINTS                        =           3
+ NUMBER OF PLANE ELEMENTS                  =           8
+ NUMBER OF LOAD PATTERNS                   =           1
+ NUMBER OF ACCELERATION LOADS              =           6
+ NUMBER OF LOAD CASES                      =           1
+
+
+ E L E M E N T   F O R M A T I O N                                      14:47:29
+
+
+
+ L I N E A R   E Q U A T I O N   S O L U T I O N                        14:47:30
+
+ FORMING STIFFNESS AT ZERO (UNSTRESSED) INITIAL CONDITIONS
+
+ TOTAL NUMBER OF EQUILIBRIUM EQUATIONS     =          24
+ NUMBER OF NON-ZERO STIFFNESS TERMS        =         152
+
+ NUMBER OF EIGENVALUES BELOW SHIFT         =           0
+
+
+ L I N E A R   S T A T I C   C A S E S                                  14:47:30
+
+ USING STIFFNESS AT ZERO (UNSTRESSED) INITIAL CONDITIONS
+
+ TOTAL NUMBER OF CASES TO SOLVE            =           1
+ NUMBER OF CASES TO SOLVE PER BLOCK        =           1
+
+ LINEAR STATIC CASES TO BE SOLVED:
+
+ CASE: DEAD
+
+
+ A N A L Y S I S   C O M P L E T E                          2018/04/01  14:47:30
