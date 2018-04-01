@@ -9,15 +9,17 @@ function Triangle2D3Node_Model
 global gNode gElement gMaterial gBC1 gNF gDF
 % 节点坐标:x,y
 gNode = [2.0 1.0;
-    0.0 4.0;
-    3.0 0.0;
-    3.0 4.0];
+    2.0 0.0;
+    0.0 1.0;
+    0.0 0.0];
 % 单元定义:节点1  节点2  节点3  材料号 厚度
 % 节点顺序记得逆时针，只会影响面积？面积取绝对值就不必考虑顺序？
-gElement = [2 3 4 1 0.1;
+% gElement = [2 3 4 1 0.1;
+%     2 1 3 1 0.1];
+gElement = [2 4 3  1 0.1;
     2 1 3 1 0.1];
 % 材料： 弹性模量  泊松比
-gMaterial = [2.1e11 1/3];
+gMaterial = [1.0e7 1/3];
 % 第一类约束条件：节点号   自由度号    约束值
 gBC1 = [3 1 0.0;
     3 2 0.0;

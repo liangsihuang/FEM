@@ -1,6 +1,0 @@
-function Triangle2D3Node_SolveModel
-% step1. 定义整体刚度矩阵和节点力向量
-[node_number,dummy] = size( gNode ) ;
-KK=zeros(node_number*2,node_number*);
-P=zeros(8,1);
-end

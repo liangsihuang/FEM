@@ -1,9 +1,12 @@
-function z=Triangle2D3Node_Assembly(KK,k,i,j,m)
+function z=Triangle2D3Node_Assembly(KK,ie,k)
 % 该函数进行单元刚度矩阵的组装
 % 输入单元刚度矩阵k
 % 输入单元的节点编号i,j,m
 % 输出整体刚度矩阵KK
-
+global gElement
+i=gElement(ie,1);
+j=gElement(ie,2);
+m=gElement(ie,3);
 % 计算送入整体刚度矩阵中的位置，2为每个节点两个自由度
 DOF(1)=2*i-1;
 DOF(2)=2*i;

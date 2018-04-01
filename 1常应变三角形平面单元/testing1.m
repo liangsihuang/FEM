@@ -1,22 +1,5 @@
+% 先集中荷载测试，后进行分布荷载测试
 clear;clc;
-E=1e7;
-NU=0.33333;
-t=0.1;
-ID=1;
-k1=Triangle2D3Node_Stiffness(E,NU,t,2,0,0,1,0,0,ID);
-k2=Triangle2D3Node_Stiffness(E,NU,t,0,1,2,0,2,1,ID);
-KK=zeros(8,8);
-KK=Triangle2D3Node_Assembly(KK,k1,2,3,4);
-KK=Triangle2D3Node_Assembly(KK,k2,3,2,1);
-% P=zeros(8,1);
-% P(2,1)=-50000;
-% P(4,1)=-50000;
-% [KK,P]=Triangle2D3Node_Boundary(KK,P,5,0);
-% [KK,P]=Triangle2D3Node_Boundary(KK,P,6,0);
-% [KK,P]=Triangle2D3Node_Boundary(KK,P,7,0);
-% [KK,P]=Triangle2D3Node_Boundary(KK,P,8,0);
-% u=KK\P;
-k=KK(1:4,1:4);
-p=[0;-50000;0;-50000];
-u=k\p;
-
+Triangle2D3Node_Model;
+Triangle2D3Node_SolveModel;
+Triangle2D3Node_Record;
