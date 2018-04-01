@@ -55,9 +55,9 @@ element tri31 16 10 15 14 $thickness PlaneStress 1
 
 puts "recorder"
 # 输出1-4号节点的位移
-recorder Node -file node0.out -time -nodeRange 1 16 -dof 1 2 disp
+recorder Node -file node0.out -time -nodeRange 1 15 -dof 1 2 disp
 
-recorder Element -file ele0.out -time -eleRange 1 46 stresses
+recorder Element -file ele0.out -time -eleRange 1 16 stresses
 puts "loading"
 
 pattern Plain 1 Linear {
