@@ -2,7 +2,8 @@ function ELAST3D(ETAN, UPDATE, LTAN, NE, NDOF, XYZ, LE)
 %***********************************************************************
 %  MAIN PROGRAM COMPUTING GLOBAL STIFFNESS MATRIX RESIDUAL FORCE FOR
 %  PLASTIC MATERIAL MODELS
-% 
+% 计算：整体刚度矩阵和 残差力向量
+% 塑性材料
 %***********************************************************************
 %%
   global DISPTD FORCE GKF SIGMA

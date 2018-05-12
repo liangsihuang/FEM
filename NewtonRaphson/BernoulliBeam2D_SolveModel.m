@@ -5,7 +5,7 @@ function BernoulliBeam2D_SolveModel
 %        3. 处理约束条件，修改整体刚度矩阵和节点力向量
 %        4. 求解方程组，得到整体节点位移向量
 
-    global gNode gElement gMaterial gBC1 gNF gDF gK gDelta
+    global gNode gElement gBC1 gNF gDF gK gDelta
 
     % step1. 定义整体刚度矩阵和节点力向量
     [node_number,~] = size( gNode ) ;
