@@ -1,9 +1,11 @@
-function Beam2D_Assembly( ie, k )
+function gK=Beam2D_Assembly( ie,k,gK )
 % 把单元刚度矩阵集成到整体刚度矩阵
 % 输入:
 % ie： 单元号
 % k：单元刚度矩阵
-global gElement gK
+% 输出：
+% gK：整体刚度矩阵
+global gElement
 for i=1:1:2
     for j=1:1:2
         for p=1:1:3
