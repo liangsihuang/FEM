@@ -14,7 +14,7 @@ yi = gNode( gElement( ie, 1 ), 2 ) ;
 xj = gNode( gElement( ie, 2 ), 1 ) ;
 yj = gNode( gElement( ie, 2 ), 2 ) ;
 L = ( (xj-xi)^2 + (yj-yi)^2 )^(1/2) ;
-k_elastic = [  E*A/L           0          0 -E*A/L           0          0
+ke = [  E*A/L           0          0 -E*A/L           0          0
                    0  12*E*I/L^3  6*E*I/L^2      0 -12*E*I/L^3  6*E*I/L^2
                    0   6*E*I/L^2    4*E*I/L      0  -6*E*I/L^2    2*E*I/L
               -E*A/L           0          0  E*A/L           0          0
@@ -25,13 +25,13 @@ F=enf(1,4); %为什么不用左端点的轴力值？跟正负号有关
 % 这里有一个假定，没有轴向分布力
 M1=enf(1,3);
 M2=enf(1,6);
-k_geom = [  F/L                        0                 -M1/L   -F/L                        0                -M2/L
+kg =     [  F/L                        0                 -M1/L   -F/L                        0                -M2/L
               0             12*F*I/A/L^3      6*F*I/A/L^2+F/10      0   -(12*F*I/A/L^3+6*F/5/L)    6*F*I/A/L^2+F/10
           -M1/L         6*F*I/A/L^2+F/10    4*F*I/A/L+2*F*L/15   M1/L       -(6*F*I/A/L^2+F/10)    2*F*I/A/L-F*L/30
            -F/L                        0                  M1/L    F/L                        0                 M2/L
               0   -(12*F*I/A/L^3+6*F/5/L)   -(6*F*I/A/L^2+F/10)     0      12*F*I/A/L^3+6*F/5/L  -(6*F*I/A/L^2+F/10)
           -M2/L         6*F*I/A/L^2+F/10      2*F*I/A/L-F*L/30   M2/L        -(6*F*I/A/L^2+F/10)   4*F*I/A/L+2*F*L/15];
-k=k_elastic+k_geom;
+k=ke+kg;
 if icoord == 1
     T = NonlinearBeam2D_TransformMatrix( ie );
     k = T*k*transpose(T);
