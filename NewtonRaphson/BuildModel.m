@@ -1,5 +1,5 @@
 function BuildModel()
-global Node Element Material BC1 NF
+global Node Element Material BC1 NF Disp
 [~,SheetNames]=xlsfinfo('model.xlsx');
 nSheets=length(SheetNames);
 for i = 1:nSheets
@@ -29,4 +29,6 @@ NF(:,1) = S(5).data.Node;
 NF(:,2) = S(5).data.DOF;
 NF(:,3) = S(5).data.Force;
 
+[m,n]=sizes(Node);
+Disp=zeros(m,n);
 end
