@@ -4,11 +4,11 @@ function T =Beam2D_TransformMatrix( ie )
 %      ie  ----- 节点号
 %  返回值
 %      T ------- 从局部坐标到整体坐标的坐标转换矩阵
-global gElement gNode
-xi = gNode( gElement( ie, 1 ), 1 ) ;
-yi = gNode( gElement( ie, 1 ), 2 ) ;
-xj = gNode( gElement( ie, 2 ), 1 ) ;
-yj = gNode( gElement( ie, 2 ), 2 ) ;
+global Element Node
+xi = Node( Element( ie, 1 ), 1 ) ;
+yi = Node( Element( ie, 1 ), 2 ) ;
+xj = Node( Element( ie, 2 ), 1 ) ;
+yj = Node( Element( ie, 2 ), 2 ) ;
 L = sqrt( (xj-xi)^2 + (yj-yi)^2 ) ;
 c = (xj-xi)/L ;
 s = (yj-yi)/L ;
