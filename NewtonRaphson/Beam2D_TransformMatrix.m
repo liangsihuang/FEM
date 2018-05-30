@@ -12,10 +12,10 @@ yj = Node( Element( ie, 2 ), 2 ) ;
 L = sqrt( (xj-xi)^2 + (yj-yi)^2 ) ;
 c = (xj-xi)/L ;
 s = (yj-yi)/L ;
-T=[ c  -s   0   0   0   0
-    s   c   0   0   0   0
+T=[ c  s   0   0   0   0
+    -s   c   0   0   0   0
     0   0   1   0   0   0
-    0   0   0   c  -s   0
-    0   0   0   s   c   0
+    0   0   0   c  s   0
+    0   0   0   -s   c   0
     0   0   0   0   0   1] ;
 return

@@ -13,6 +13,8 @@ max=50;
 Q=ExterF*lambda;
 while(true)
     R=Q-InterF;
+    monitor=norm(InterF);
+    disp(monitor);
     control=norm(R);
     if (iter>max || control<1e-5)
         break;
@@ -20,8 +22,11 @@ while(true)
     K=GlobalStiffnessMatrix();
     [K,R]=AddBoundaryCondition(K,R);
     dU=K\R;
-    UpdateInterF();
+%     monitor=norm(dU);
+%     disp(monitor);
+    UpdateInterF_elem();
     UpdateNode();
+    UpdateInterF();
     Disp=Disp+dU;
     iter=iter+1;
 end

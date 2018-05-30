@@ -28,8 +28,8 @@ kg =     [  F/L                        0                 -M1/L   -F/L           
               0     12*F*I/A/L^3+6*F/5/L      6*F*I/A/L^2+F/10      0    -12*F*I/A/L^3-6*F/5/L     6*F*I/A/L^2+F/10
           -M1/L         6*F*I/A/L^2+F/10    4*F*I/A/L+2*F*L/15   M1/L        -6*F*I/A/L^2-F/10     2*F*I/A/L-F*L/30
            -F/L                        0                  M1/L    F/L                        0                 M2/L
-              0    -12*F*I/A/L^3-6*F/5/L     -6*F*I/A/L^2-F/10      0      12*F*I/A/L^3+6*F/5/L   -6*F*I/A/L^2-F/10
-          -M2/L         6*F*I/A/L^2+F/10      2*F*I/A/L-F*L/30   M2/L         -6*F*I/A/L^2-F/10   4*F*I/A/L+2*F*L/15];
+              0   -(12*F*I/A/L^3+6*F/5/L)   -(6*F*I/A/L^2-F/10      0      12*F*I/A/L^3+6*F/5/L   -6*F*I/A/L^2-F/10
+          -M2/L         6*F*I/A/L^2+F/10      2*F*I/A/L-F*L/30   M2/L         -6*F*I/A/L^2+F/10   4*F*I/A/L+2*F*L/15];
 k=ke+kg;
 if icoord == 1
     T = Beam2D_TransformMatrix( ie );
