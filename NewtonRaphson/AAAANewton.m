@@ -65,35 +65,35 @@ for n=0:Allstep-1
         A=Section(N_Section,2);
         I=Section(N_Section,3);
         K_Element=beam2d_stiffness530(E,A,I,L(i),cs,Ele_F1(i,:));
-        K_Global=K_Global+Assemble(K_Element,Element(i,:),N_Node); %形成总刚 K0 end%整体刚度矩阵
-        Delta_Force=ForceMatrix/Allstep;%初始荷载向量(Q0)
-        Equation=[K_Global,Delta_Force];
-%方程组
-Disp_Transefer=ones(N_Node*3,1); %建立调节位移矩阵的位移向量
-Disp_Transefer(del,:)=0; %将约束节点的位移值定为 0, 其他的定位 1
-Equation(del,:)=[];%把方程中约束节点所对应的行和列去掉
-Equation(:,del)=[];
-%引入约束条件修改方程组
-n1=size(Equation,2); % 方程组中列数
-dis1=(Equation(:,1:n1-1))\Equation(:,n1); % 刚度矩阵求逆后乘以荷载向量,Equation(:,n1)荷载向量,得到节点的位移(da0)
-%求解方程组
-zz=1;
-%识别约束
-for i=1:N_Node*3;
-    if Disp_Transefer(i,1)==1;
-        Disp_Transefer(i,1)=dis1(zz,1); %总的位移向量
-        zz=zz+1;
+        K_Global=K_Global+Assemble(K_Element,Element(i,:),N_Node); %形成总刚 K0 
+    end%整体刚度矩阵
+    Delta_Force=ForceMatrix/Allstep;%初始荷载向量(Q0)
+    Equation=[K_Global,Delta_Force];%方程组
+    Disp_Transefer=ones(N_Node*3,1); %建立调节位移矩阵的位移向量
+    Disp_Transefer(del,:)=0; %将约束节点的位移值定为 0, 其他的定位 1
+    Equation(del,:)=[];%把方程中约束节点所对应的行和列去掉
+    Equation(:,del)=[];%引入约束条件修改方程组
+    n1=size(Equation,2); % 方程组中列数
+    dis1=(Equation(:,1:n1-1))\Equation(:,n1); % 刚度矩阵求逆后乘以荷载向量,Equation(:,n1)荷载向量,得到节点的位移(da0)
+    %求解方程组
+    zz=1;
+    %识别约束
+    for i=1:N_Node*3;
+        if Disp_Transefer(i,1)==1;
+            Disp_Transefer(i,1)=dis1(zz,1); %总的位移向量
+            zz=zz+1;
+        end
     end
-end
 
-for i=1:N_Node
-    Displacement(i,:)=Disp_Transefer(i*3-2:i*3,1); % 位移增量,形成 n*3的位移向量 (da0)
-end
-All_Disp=All_Disp+Displacement %位移向量更新得到 a1(总的位移增量) All_F=All_F+Delta_Force; %外荷载向量更新 Q1
-Internal_F1=zeros(N_Node*3,1); %节点内力向量
-Update_Node1=Update_Node; %C1状态
-Update_Node=Node+All_Disp(:,1:2); %C2状态坐标位置更新 (改) (迭代后的位置 for i=1:N_Element
-F_Global=zeros(N_Node*3,1); %全局的荷载向量
+    for i=1:N_Node
+        Displacement(i,:)=Disp_Transefer(i*3-2:i*3,1); % 位移增量,形成 n*3的位移向量 (da0)
+    end
+    All_Disp=All_Disp+Displacement; %位移向量更新得到 a1(总的位移增量) 
+    All_F=All_F+Delta_Force; %外荷载向量更新 Q1
+    Internal_F1=zeros(N_Node*3,1); %节点内力向量
+    Update_Node1=Update_Node; %C1状态
+    Update_Node=Node+All_Disp(:,1:2); %C2状态坐标位置更新 (改) (迭代后的位置 for i=1:N_Element
+    F_Global=zeros(N_Node*3,1); %全局的荷载向量
 
 for j=1:2
     ELEDISP1(j*3-2:j*3)=Displacement(Element(i,j),:); %整体 取出当前单元节点位移向量 end
@@ -118,10 +118,12 @@ for j=1:2
     THRA=ELEDISP(i,3)-Citaloca;
     THRB=ELEDISP(i,6)-Citaloca;
     ELEDISP(i,:)=[0,0,THRA,Ub,0,THRB];
-    K_Element=beam2d_stiffness520(E,A,I,L1(i),cs1,Ele_F1(i,:)); 
-%L(i)为a0对应下的 Ele_F(i,:)=K_Element*ELEDISP(i,:)'; 
-%局部坐标系下荷载(Q0)作用下的节点力 Ele_F1(i,:)= Ele_F1(i,:)+ Ele_F(i,:);
-    C2(i,:)=Update_Node(N2,:)-Update_Node(N1,:); %a0下坐标向量增量 L2(i)=norm(C2(i,:)); %变形后的长度
+    K_Element=beam2d_stiffness520(E,A,I,L1(i),cs1,Ele_F1(i,:)); %L(i)为a0对应下的 
+    Ele_F(i,:)=K_Element*ELEDISP(i,:)'; 
+    %局部坐标系下荷载(Q0)作用下的节点力 
+    Ele_F1(i,:)= Ele_F1(i,:)+ Ele_F(i,:);
+    C2(i,:)=Update_Node(N2,:)-Update_Node(N1,:); %a0下坐标向量增量 
+    L2(i)=norm(C2(i,:)); %变形后的长度
     cs2=C2(i,:)/L2(i); %杆件的 cos 和 sin 值
     T2=[cs2(1,1),cs2(1,2),0,0,0,0;
     -cs2(1,2),cs2(1,1),0,0,0,0;
@@ -137,16 +139,16 @@ for j=1:2
     Internal_F1=Internal_F1+F_Global; %a1对应下的 P1
 end
 
-Val=Internal_F1-All_F %求出上次迭代完成时的残余应力 Q1-P1
+Val=Internal_F1-All_F; %求出上次迭代完成时的残余应力 Q1-P1
 Correc_dis=zeros(N_Node,3); %构造新的节点位移向量,每次更新
 Correc_dis1=zeros(N_Node,3); %构造新的节点位移向量,叠加位移增量
-N_dis=size(dis1,1); %未受约束的节点位移数目 , 不为零的节点位移数目 dis3=zeros(N_dis,1); %构造一个向量
+N_dis=size(dis1,1); %未受约束的节点位移数目 , 不为零的节点位移数目 
+dis3=zeros(N_dis,1); %构造一个向量
 k=0;
 %修改位移矩阵形式
-while norm(Val)>1e-7 & k<500 %在一个荷载增量步下进行的对此迭代
+while norm(Val)>1e-7 && k<500 %在一个荷载增量步下进行的对此迭代
     k=k+1;
     K_Global=zeros(N_Node*3,N_Node*3);
-
     for i=1:N_Element
         N1=Element(i,1);
         N2=Element(i,2);
@@ -190,7 +192,8 @@ while norm(Val)>1e-7 & k<500 %在一个荷载增量步下进行的对此迭代
                 ELEDISP1(j*3-2:j*3)=Correc_dis(Element(i,j),:); %取出当前单元节点位移向量 end
                 N1=Element(i,1); %i节点编号
                 N2=Element(i,2); %j节点编号
-                C1(i,:)=Update_Node1(N2,:)-Update_Node1(N1,:); %a0下坐标向量增量 L1(i)=norm(C1(i,:)); %变形后的长度
+                C1(i,:)=Update_Node1(N2,:)-Update_Node1(N1,:); %a0下坐标向量增量 
+                L1(i)=norm(C1(i,:)); %变形后的长度
                 cs1=C1(i,:)/L1(i); %杆件的 cos 和 sin 值
                 T1=[cs1(1,1),cs1(1,2),0,0,0,0;
                     -cs1(1,2),cs1(1,1),0,0,0,0;
@@ -210,9 +213,11 @@ while norm(Val)>1e-7 & k<500 %在一个荷载增量步下进行的对此迭代
                 THRB=ELEDISP(i,6)- Citaloca;
                 ELEDISP(i,:)=[0,0,THRA,Ub,0,THRB];
                 K_Element=beam2d_stiffness520(E,A,I,L1(i),cs1,Ele_F1(i,:));
-                % L(i )为 a1对应下的 Ele_F(i,:)=K_Element*ELEDISP(i,:)';
+                % L(i )为 a1对应下的 
+                Ele_F(i,:)=K_Element*ELEDISP(i,:)';
                 Ele_F1(i,:)= Ele_F1(i,:)+ Ele_F(i,:);
-                C2(i,:)=Update_Node(N2,:)-Update_Node(N1,:); %a0下坐标向量增量 L2(i)=norm(C2(i,:)); %变形后的长度
+                C2(i,:)=Update_Node(N2,:)-Update_Node(N1,:); %a0下坐标向量增量 
+                L2(i)=norm(C2(i,:)); %变形后的长度
                 cs2=C2(i,:)/L2(i); %杆件的 cos 和 sin 值
                 T2=[cs2(1,1),cs2(1,2),0,0,0,0;
                     -cs2(1,2),cs2(1,1),0,0,0,0;
@@ -224,7 +229,9 @@ while norm(Val)>1e-7 & k<500 %在一个荷载增量步下进行的对此迭代
                 N1=Element(i,1);
                 N2=Element(i,2);
                 F_Global(3*N1-2:3*N1,1)=Ele1_F(1:3); 
-                %i节点荷载 F_Global(3*N2-2:3*N2,1)=Ele1_F(4:6); %j节点荷载 Internal_F1=Internal_F1+F_Global; %a1对应下的 P1 
+                %i节点荷载 
+                F_Global(3*N2-2:3*N2,1)=Ele1_F(4:6); %j节点荷载 
+                Internal_F1=Internal_F1+F_Global; %a1对应下的 P1 
             end
             Val=Internal_F1-All_F; %荷载增量 Q1-P2
             Val(del,:)=0;
@@ -233,7 +240,7 @@ while norm(Val)>1e-7 & k<500 %在一个荷载增量步下进行的对此迭代
         qq(n+1,1)=All_F(N_Node*3,1);
         pp(n+1,1)=All_Disp(21,2);
     end
-    
+end 
 plot(1.4525,qq,'g')
 text(1.3,1.5*10^4,'x=1.4525')
 hold on

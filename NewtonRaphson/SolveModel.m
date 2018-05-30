@@ -13,8 +13,9 @@ max=50;
 Q=ExterF*lambda;
 while(true)
     R=Q-InterF;
-    monitor=norm(InterF);
-    disp(monitor);
+    R=ModifyResidual(R);
+%     monitor=norm(InterF);
+%     disp(monitor);
     control=norm(R);
     if (iter>max || control<1e-5)
         break;
@@ -26,8 +27,8 @@ while(true)
 %     disp(monitor);
     UpdateInterF_elem();
     UpdateNode();
-    UpdateInterF();
-    Disp=Disp+dU;
+    AssembleInterF();
+%     Disp=Disp+dU;
     iter=iter+1;
 end
 if (iter>max)
@@ -57,5 +58,16 @@ for i=1:1:num
     m = (n-1)*3 + d ;
     R(m) = BC1(i, 3)* K(m,m) * 1e15 ;
     K(m,m) = K(m,m) * 1e15 ;
+end
+end
+
+function R=ModifyResidual(R)
+global BC1
+[num,~] = size( BC1 ) ;
+for i=1:1:num
+    n = BC1(i, 1);
+    d = BC1(i, 2);
+    m = (n-1)*3 + d;
+    R(m) = BC1(i, 3);
 end
 end
