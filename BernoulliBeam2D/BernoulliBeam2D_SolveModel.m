@@ -16,11 +16,7 @@ K = zeros( node_number * 3, node_number * 3 ) ;
 f = zeros( node_number * 3, 1 ) ;
     
 % step2. 计算单元刚度矩阵，并集成到整体刚度矩阵中
-[element_number,~] = size( Element ) ;
-for ie=1:1:element_number
-    k = BernoulliBeam2D_Stiffness( ie, 1 ) ;
-    BernoulliBeam2D_Assembly( ie, k ) ;
-end
+GlobalStiffnessMatrix()
 
 % step3. 把集中力直接集成到整体节点力向量中
 [nf_number, ~] = size( NF ) ;
@@ -43,15 +39,45 @@ for idf = 1:1:df_number
 end
   
 % step5. 处理约束条件，修改刚度矩阵和节点力向量。采用乘大数法
-[bc_number,~] = size( BC1 ) ;
-for ibc=1:1:bc_number
-    n = BC1(ibc, 1 ) ;
-    d = BC1(ibc, 2 ) ;
-    m = (n-1)*3 + d ;
-    f(m) = BC1(ibc, 3)* K(m,m) * 1e15 ;
-    K(m,m) = K(m,m) * 1e15 ;
-end
+[K,f]=AddBoundaryCondition(K,f,'Plain');
 
 % step 6. 求解方程组，得到节点位移向量
 dU = K \ f ;
-return
+end
+
+function GlobalStiffnessMatrix()
+global Element
+[num,~] = size( Element ) ;
+for ie=1:num
+    ibc = BernoulliBeam2D_Stiffness( ie, 1 ) ;
+    BernoulliBeam2D_Assembly( ie, ibc ) ;
+end
+end
+
+function [K,f]=AddBoundaryCondition(K,f,string)
+global BC1
+if (strcmp(string,'Penalty'))
+    [num,~] = size( BC1 ) ;
+    for ibc=1:1:num
+        n = BC1(ibc, 1 ) ;
+        d = BC1(ibc, 2 ) ;
+        m = (n-1)*3 + d ;
+        f(m) = BC1(ibc, 3)* K(m,m) * 1e15 ;
+        K(m,m) = K(m,m) * 1e15 ;
+    end
+end
+if (strcmp(string,'Plain')) %划行划列法，0-1法
+    [num,~] = size( BC1 ) ;
+    [p,~]=size(K);
+    for ibc=1:1:num
+        n = BC1(ibc, 1 );
+        d = BC1(ibc, 2 );
+        m = (n-1)*3 + d;
+        f = f-BC1(ibc,3)*K(:,m);
+        f(m) = BC1(ibc, 3);
+        K(:,m) = zeros(p,1);
+        K(m,:) = zeros(1,p);
+        K(m,m) = 1.0;
+    end
+end
+end

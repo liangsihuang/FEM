@@ -21,14 +21,14 @@ while(true)
         break;
     end
     K=GlobalStiffnessMatrix();
-    [K,R]=AddBoundaryCondition(K,R);
+    [K,R]=AddBoundaryCondition(K,R,'Plain');
     dU=K\R;
 %     monitor=norm(dU);
 %     disp(monitor);
     UpdateInterF_elem();
     UpdateNode();
     AssembleInterF();
-%     Disp=Disp+dU;
+    Disp=Disp+dU;
     iter=iter+1;
 end
 if (iter>max)
@@ -50,18 +50,33 @@ for ie = 1:num
     k = NonlinearBeam2D_Stiffness(ie,1,InterF_elem(:,ie));
     K = Beam2D_AssembleStiffness(K,ie,k);
 end
-
 end
 
-function [K,R]=AddBoundaryCondition(K,R)
+function [K,R]=AddBoundaryCondition(K,R,string)
 global BC1
-[num,~] = size( BC1 ) ;
-for i=1:1:num
-    n = BC1(i, 1 );
-    d = BC1(i, 2 );
-    m = (n-1)*3 + d ;
-    R(m) = BC1(i, 3)* K(m,m) * 1e15 ;
-    K(m,m) = K(m,m) * 1e15 ;
+if (strcmp(string,'Penalty'))
+    [num,~] = size( BC1 ) ;
+    for ibc=1:1:num
+        n = BC1(ibc, 1 ) ;
+        d = BC1(ibc, 2 ) ;
+        m = (n-1)*3 + d ;
+        R(m) = BC1(ibc, 3)* K(m,m) * 1e15 ;
+        K(m,m) = K(m,m) * 1e15 ;
+    end
+end
+if (strcmp(string,'Plain')) %划行划列法，0-1法
+    [num,~] = size( BC1 ) ;
+    [p,~]=size(K);
+    for ibc=1:1:num
+        n = BC1(ibc, 1 );
+        d = BC1(ibc, 2 );
+        m = (n-1)*3 + d;
+        R = R-BC1(ibc,3)*K(:,m);
+        R(m) = BC1(ibc, 3);
+        K(:,m) = zeros(p,1);
+        K(m,:) = zeros(1,p);
+        K(m,m) = 1.0;
+    end
 end
 end
 
