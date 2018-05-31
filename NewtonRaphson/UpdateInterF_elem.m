@@ -16,7 +16,7 @@ function d_inf=ElementInternalForce(ie)
 global InterF_elem
 deform=RemoveRigidMotion(ie);
 inf=InterF_elem(:,ie); %初应力为C1状态下的内力
-k = NonlinearBeam2D_Stiffness(ie,2,inf);%2代表局部坐标
+k = NonlinearBeam2D_Stiffness(ie,2,inf);%2代表局部坐标，C1状态下的k
 d_inf = k * deform;
 end
 
@@ -26,13 +26,15 @@ function deform=RemoveRigidMotion(ie)
 % 输出：
 % deform: C1到C2局部坐标下的弹性变形 向量(6,1)
 global Element dU Node
+% 提取单元的位移向量（整体坐标下）
 n1=Element(ie,1);
 n2=Element(ie,2);
 du_elem=zeros(6,1);
 du_elem(1:3)=dU(n1*3-2:n1*3);
 du_elem(4:6)=dU(n2*3-2:n2*3);
+%转换到单元局部坐标
 T=Beam2D_TransformMatrix(ie);
-du_elem=T*du_elem; %转换到单元局部坐标
+du_elem=T*du_elem; 
 % C1到C2坐标增量各分量
 ua=du_elem(1);
 wa=du_elem(2);

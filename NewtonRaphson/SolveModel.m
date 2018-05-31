@@ -1,8 +1,8 @@
 function SolveModel()
-% for lambda=0.1:0.1:1
-lambda=0.1;
+for lambda=0.01:0.01:1
     NewtonRaphson(lambda);
-% end
+end
+% 步长太大(比如0.1)，不收敛
 end
 
 
@@ -33,6 +33,10 @@ while(true)
 end
 if (iter>max)
     disp('收敛失败');
+    disp(lambda);
+end
+if (control<1e-5)
+    disp('收敛成功');
     disp(lambda);
 end
 end

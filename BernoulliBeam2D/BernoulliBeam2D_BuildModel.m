@@ -1,6 +1,14 @@
-function BuildModel()
-global Node Element Material BC1 NF Disp InterF_elem InterF ExterF
-% InterF_elem: 单元内力矩阵，行数=6，列数=单元数
+function BernoulliBeam2D_BuildModel()
+% 定义平面杆系的有限元模型，单位N，m
+% Node ------- 节点定义
+% Element ---- 单元定义
+% Material --- 材料定义，包括弹性模量，梁的截面积和梁的抗弯惯性矩
+% BC1 -------- 约束条件
+% NF --------- 集中力
+% DF --------- 分布力
+
+global Node Element Material BC1 NF DF
+
 [~,sheets]=xlsfinfo('model.xlsx');
 nSheets=length(sheets);
 for i = 1:nSheets
@@ -20,26 +28,8 @@ for i = 1:nSheets
     if (strcmp(sheet,'nodalforce'))
         NF=xlsread('model.xlsx',sheet);
     end
+    if (strcmp(sheet,'distributedforce'))
+        DF=xlsread('model.xlsx',sheet);
+    end
 end
-
-% 初始化为0的数据
-[m,~]=size(Node);
-Disp=zeros(m*3,1);
-InterF=zeros(m*3,1);
-ExterF=zeros(m*3,1);
-% K=zeros(m*3,m*3);
-
-[n,~]=size(Element);
-InterF_elem=zeros(6,n);
-
-
-% 把集中力直接集成到整体节点力向量中
-[num, ~] = size( NF ) ;
-for i=1:1:num
-    n = NF( i, 1 ) ;
-    d = NF( i, 2 ) ;
-    ExterF( (n-1)*3 + d ) = NF( i, 3 ) ;
-end
-
-
-end
+return
