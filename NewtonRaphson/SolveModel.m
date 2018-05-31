@@ -1,4 +1,5 @@
 function SolveModel()
+% ºÉÔØÔöÁ¿·¨
 for lambda=0.01:0.01:1
     NewtonRaphson(lambda);
 end
@@ -7,7 +8,7 @@ end
 
 
 function NewtonRaphson(lambda)
-global Disp ExterF InterF dU
+global TotalU ExterF InterF dU
 iter=0;
 max=50;
 Q=ExterF*lambda;
@@ -28,7 +29,7 @@ while(true)
     UpdateInterF_elem();
     UpdateNode();
     AssembleInterF();
-    Disp=Disp+dU;
+    TotalU=TotalU+dU;
     iter=iter+1;
 end
 if (iter>max)
