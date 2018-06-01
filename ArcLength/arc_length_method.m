@@ -42,7 +42,7 @@ while All_Disp(6,2)>-2 % 弧长法求解终止条件：拱跨中位移大于限值
     [XZK,XZP]=bianjiexiuzheng(Boundary,Force_Transfer,K_Global,N_Node); % 进行边界修正
     dis1=XZK\XZP; % 求解位移
     lamda=Huchang/(dis1'*dis1+1)^0.5; % 得到本增量步第一次迭代后的荷载系数
-    Disp_Transfer=lamda*dis1; % 本增量步第一次迭代后的位移
+    Disp_Transfer=lamda*dis1; % 本增量步第一次迭代后的位移 ?????
     r_m=[Disp_Transfer',lamda]'; % 弧长记录
     % 荷载系数符号判定，锐角为正，钝角为负
     if n>1
