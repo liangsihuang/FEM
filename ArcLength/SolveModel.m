@@ -1,14 +1,15 @@
 function record=SolveModel()
-contU=MidSpanU(6,2);
+contU=0;
 increNum=0;
 record=zeros(1000,2);
 while(contU<-2) %计算到跨中位移为2m
     increNum=increNum+1;
-    [lambda,contU]=ArcLengthMethod();
+    [lambda]=ArcLengthMethod();
     if (increNum>size(record,1))
         temp=zeros(1000,2);
         record=[record,temp];
     end
+    contU=MidSpanU(6,2);
     record(increNum,1)=contU;
     record(increNum,2)=lambda;
 end
