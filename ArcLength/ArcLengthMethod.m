@@ -1,4 +1,4 @@
-function [lambda, r_total]=ArcLengthMethod(increNum, lambda, r_total)
+function [lambda_total, r_total]=ArcLengthMethod(increNum, lambda_total, r_total)
 arclength=0.05; %初始化弧长
 global ExterF InterF dU
 iter=0;
@@ -11,7 +11,7 @@ dU=K\Q;
 temp1=dU;
 lambda=arclength/sqrt((dU'*dU+1)); %第一次迭代，根据弧长和dU反求lambda
 dU=lambda*dU; %dU要同比扩大lambda倍
-r1=[dU,lambda]; %第一个弧长半径向量 ,r1=dr1
+r1=[dU;lambda]; %第一个弧长半径向量 ,r1=dr1
 if (increNum>1)
     if r1'*r_total<0
         lambda=-lambda;
@@ -21,13 +21,12 @@ if (increNum>1)
         temp1=-temp1;
     end
 end
-r_total=r_total+r1;
+r=r1;
 UpdateStatus();
-R=Q*lambda-InterF;
+R=Q*lambda_total+Q*lambda-InterF; %易错
 R=ModifyResidual(R);
 converge=norm(R);
 while(iter>max || converge<1e-7)
-    
     K=GlobalStiffnessMatrix();
     [K,R]=AddBoundaryCondition(K,R,'Plain');
     temp2=K\R;
@@ -36,11 +35,17 @@ while(iter>max || converge<1e-7)
     temp3=K\Q;
     dLambda=-temp1'*temp2/(temp1'*temp3+1); 
     dU=dLambda*temp3+temp2;
-    dr=[dU,dLambda];
-    r_total=r_total+dr;
+    dr=[dU;dLambda];
+    r=r+dr;
     lambda=lambda+dLambda;
+    UpdateStatus();
+    R=Q*lambda_total+Q*lambda-InterF; %易错
+    R=ModifyResidual(R);
+    converge=norm(R);
     iter=iter+1;
 end
+lambda_total=lambda_total+lambda;
+r_total=r_total+r;
 if (converge<1e-7)
     disp('收敛成功');
     disp(lambda);
