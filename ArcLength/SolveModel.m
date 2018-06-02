@@ -4,10 +4,10 @@ increNum=0;
 record=zeros(1000,2);
 while(contU<-2) %计算到跨中位移为2m
     increNum=increNum+1;
-    [lambda]=ArcLengthMethod();
+    [lambda ,r_total]=ArcLengthMethod(increNum, lambda, r_total);
     if (increNum>size(record,1))
         temp=zeros(1000,2);
-        record=[record,temp];
+        record=[record,temp]; %只在很少情况才会改变record的维度,代价可以接受
     end
     contU=MidSpanU(6,2);
     record(increNum,1)=contU;
