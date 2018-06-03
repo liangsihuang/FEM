@@ -1,5 +1,9 @@
 clc;clear;
 BuildModel();
-record=SolveModel();
+expectU=-2;
+record=SolveModel(expectU);
 global Node Element Material BC1 NF TotalU InterF_elem InterF ExterF dU
-Plot(record);
+x=record(:,1)*(-1);
+y=record(:,2);
+plot(x,y);
+% 'o'

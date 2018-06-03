@@ -10,8 +10,8 @@ N_Element=size(Element,1); % 单元数量
 N_Force=size(Force,1);% 外部作用荷载数量
 N_Boundary=size(Boundary,1); % 约束数量
 Update_Node=Node; % 更新的节点坐标,x坐标与y坐标
-All_Disp=zeros(N_Node,3); % 生成位移存储矩阵，初始位移均为0
-All_F=zeros(N_Node*3,1);  % 总荷载向量
+All_Disp=zeros(N_Node,3); % 生成位移存储矩阵，初始位移均为0 
+All_F=zeros(N_Node*3,1);  % 总荷载向量     
 zlamda=0; % 总荷载系数
 Element_F=zeros(N_Element,6); % 单元节点外荷载
 Force_Transfer=zeros(N_Node*3,1); % 外荷载矩阵
@@ -42,7 +42,7 @@ while All_Disp(6,2)>-2 % 弧长法求解终止条件：拱跨中位移大于限值
     [XZK,XZP]=bianjiexiuzheng(Boundary,Force_Transfer,K_Global,N_Node); % 进行边界修正
     dis1=XZK\XZP; % 求解位移
     lamda=Huchang/(dis1'*dis1+1)^0.5; % 得到本增量步第一次迭代后的荷载系数
-    Disp_Transfer=lamda*dis1; % 本增量步第一次迭代后的位移 ?????
+    Disp_Transfer=lamda*dis1; % 本增量步第一次迭代后的位移 
     r_m=[Disp_Transfer',lamda]'; % 弧长记录
     % 荷载系数符号判定，锐角为正，钝角为负
     if n>1
