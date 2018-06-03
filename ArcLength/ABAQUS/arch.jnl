@@ -1,0 +1,89 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=10000.0)
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(0.0, 0.0))
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(1000.0, 309.017))
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(2000.0, 587.7853))
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(3000.0, 809.017))
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(4000.0, 951.0565))
+mdb.models['Model-1'].sketches['__profile__'].Spot(point=(5000.0, 1000.0))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 0.0), point2=(
+    1000.0, 309.017))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(1000.0, 309.017), 
+    point2=(2000.0, 587.7853))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(2000.0, 587.7853), 
+    point2=(3000.0, 809.017))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(3000.0, 809.017), 
+    point2=(4000.0, 951.0565))
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(4000.0, 951.0565), 
+    point2=(5000.0, 1000.0))
+mdb.models['Model-1'].sketches['__profile__'].delete(objectList=(
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5], 
+    mdb.models['Model-1'].sketches['__profile__'].geometry[6], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[3], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[4], 
+    mdb.models['Model-1'].sketches['__profile__'].vertices[5], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[2], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[3], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[6], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[7], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[10], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[11], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[14], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[15], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[18], 
+    mdb.models['Model-1'].sketches['__profile__'].constraints[19]))
+mdb.models['Model-1'].sketches['__profile__'].CircleByCenterPerimeter(center=(
+    0.0, 0.0), point1=(20.0, 0.0))
+mdb.models['Model-1'].Part(dimensionality=TWO_D_PLANAR, name='arch', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['arch'].BaseWire(sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(gridSpacing=2.82, name='__profile__', 
+    sheetSize=113.13)
+mdb.models['Model-1'].parts['arch'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].Material(name='Material-1')
+mdb.models['Model-1'].materials['Material-1'].Elastic(table=((206000.0, 0.3), 
+    ))
+mdb.models['Model-1'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['Model-1'].parts['arch'].features['Wire-1'].sketch)
+mdb.models['Model-1'].parts['arch'].projectReferencesOntoSketch(filter=
+    COPLANAR_EDGES, sketch=mdb.models['Model-1'].sketches['__edit__'], 
+    upToFeature=mdb.models['Model-1'].parts['arch'].features['Wire-1'])
+# Save by lyoshi on 2018_06_03-19.24.20; build 6.13-4 2014_01_04-09.03.49 126873
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['Model-1'].sketches['__edit__']
+# Save by lyoshi on 2018_06_03-19.24.33; build 6.13-4 2014_01_04-09.03.49 126873
