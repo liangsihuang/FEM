@@ -1,6 +1,6 @@
 function ArcLengthMethod(increNum)
 global ExterF InterF dU Node lambda_total dr_total
-arclength=0.1; %固定弧长
+arclength=0.05; %固定弧长
 % 第一次迭代
 iter=1;
 Q=ExterF;
